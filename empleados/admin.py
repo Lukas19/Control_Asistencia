@@ -1,8 +1,14 @@
 from django.contrib import admin
 # Register your models here.
+from .models import *
 
-from .models import Empleado,Documento
+class DocumentoAdmin(admin.ModelAdmin):
+    list_display = ['dueño','fecha']
+    list_filter = ['dueño','fecha']
 
-admin.site.register(Empleado)
-admin.site.register(Documento) #Despliega el CRUD de Documento
+class EmpleadoAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'cargo']
+    list_filter = ['cargo']
 
+admin.site.register(Documento, DocumentoAdmin)
+admin.site.register(Empleado, EmpleadoAdmin)
