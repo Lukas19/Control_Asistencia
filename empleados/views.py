@@ -9,6 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext, loader
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_protect
+from Asistencia_Personal.settings import  MEDIA_ROOT
+
 
 from .models import Empleado
 
@@ -30,11 +32,11 @@ def lector(request):
         nombre = empleado_nombre.split("_")
         nombre = str.join(" ",nombre)
         personal = Empleado.objects.get(nombre=nombre)
-        archivo = open("media/"+empleado_nombre+"_"+month+".csv")
+        archivo = open(MEDIA_ROOT+"/"+empleado_nombre+"_"+month+".csv")
         numline = len(archivo.readlines())
         archivo.close()
         if nombre == personal.__str__(): #ADAPTAR A LA QUERY!
-            with open("media/"+empleado_nombre+"_"+month+".csv", 'a', newline='') as fp:
+            with open(MEDIA_ROOT+"/"+empleado_nombre+"_"+month+".csv", 'a', newline='') as fp:
                 a = csv.writer(fp, delimiter=',')
                 if (numline%5 != 0):
                     data = [[empleado_nombre, today]
@@ -53,4 +55,4 @@ def lector(request):
                     #time.sleep(5)
                     return JsonResponse({'error': False, 'message': u'Actualizado con éxito.'})
 
-
+      
