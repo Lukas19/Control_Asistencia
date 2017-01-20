@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext, loader
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_protect
 
 from .models import Empleado
 
@@ -17,7 +18,8 @@ from .models import Empleado
 def index(request):
     return render(request, 'empleados/index.html')
 
-@csrf_exempt
+#@csrf_exempt
+@csrf_protect
 def lector(request):
     today = str(datetime.datetime.now().strftime("%d-%H:%M"))
     month = str(datetime.datetime.now().strftime("%m-%Y"))
@@ -42,6 +44,9 @@ def lector(request):
                     return JsonResponse({'error': False, 'message': u'Actualizado con éxito.'})
                 else:
                     data = [["---------"]
+                            ]
+                    a.writerows(data)
+                    data = [[empleado_nombre, today]
                             ]
                     a.writerows(data)
 

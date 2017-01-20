@@ -3,6 +3,7 @@ function read(a)
     var form = new FormData();
 
     form.append('qr-value', a);
+    form.append('csrfmiddlewaretoken', getCookie('csrftoken'));
 
     $.ajax({
         url: '/empleados/lector',
